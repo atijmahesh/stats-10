@@ -1,0 +1,100 @@
+---
+title: "lab1"
+author: "Atij Mahesh"
+date: "2024-01-16"
+output: html_document
+---
+
+# Lab 1 (Part 1)
+## 1. Vectors
+```{r}
+#a)
+heights <- c(71, 70, 75)
+heights
+
+#b)
+names <- c("Atij", "Rene", "Sam")
+names
+
+#c)
+obj <- cbind(heights, names)
+obj
+class(obj)
+# cbind maps/combines 2 vectors into a 2D array (matrix). the output is a matrix with the first vector being the row, and the second being the column. Also, all the values (both ints and strings) are converted to string variable types.
+```
+## 2. Downloading Data
+```{r}
+#a)
+NCbirths <- read.csv("births.csv")
+
+#b)
+head(NCbirths)
+```
+## 3. Package Loading
+```{r}
+#a) 
+# install.packages("maps")
+find.package("maps")
+
+#b)
+library(maps)
+map("state")
+```
+## 4. Vector Operations
+```{r}
+#a) 
+weights <- NCbirths$weight
+
+#b) 
+# The units of the weights are ounces
+
+#c)
+weights_in_pounds <- weights/16
+
+#d)
+weights_in_pounds[1:20]
+```
+## 5. Mean
+```{r}
+mean(weights_in_pounds)
+
+#a)
+# install.packages("mosaic")
+library(mosaic)
+tally(NCbirths$Habit, format = "percent")
+
+#b)
+21 - 9.38755
+```
+## 6. Histograms
+```{r}
+histogram(weights_in_pounds, n=3)
+histogram(weights_in_pounds, n=20)
+histogram(weights_in_pounds, n=100)
+#The best histogram was the one with 20 bins, as it is general enough to capture the shape of the plot, but not unnecessarily specific like the histogram with 100 bins. The histogram with 100 bins also disrupts the smoothness of the curve, making it not ideal. 
+```
+## 7. Box Plot
+```{r}
+boxplot(NCbirths$Mage, NCbirths$Fage)
+#Fathers age tends be older, as the median, Q1, and Q3 are higher than the mothers ages. There are also far more high outliers in fathers age as well. 
+```
+## 8. Histogram 2
+```{r}
+histogram(~ weight | Habit, data = NCbirths, layout = c(1,2))
+# This code create 2 histograms of weight, which is separated by Habit (denoted by weight|Habit). The data it uses is from NCbirths, and the layout = c(1,2) denotes that the histograms are laid out in a column, with the first one being at index 1 and the second at index 2. The weight of smokers babies is generally lower than that of non-smokers, as the mean, median, and mode are all lower of the smoker distribution is lower than the non-smoker. Both of these distributions are relatively normal as well. The takeaway is that smoker's baby weights are on average, lower than non-smokers, and thus the histograms represent different distributions. Additionally, the smoker histogram has more low outliers than the non-smokers as well, and generally has more variance. 
+```
+## 9. Dot Plot
+```{r}
+dotPlot(weights_in_pounds, cex = 20)
+```
+## 10. Two-way Summary Table
+```{r}
+tally(~BirthDef|Habit, data = NCbirths, format = "proportion")
+
+#I think there would be a higher proportion of babies who have birth defects whose mothers are smokers. Testing my hypothesis, there is a comparatively higher proportion of babies who have birth defects who have mothers who smoke. This data shows that the likelihood of having a baby with at least one birth defect is significantly higher for mothers who smoke compared to non-smokers. Specifically, the proportion of babies with at least one birth defect is 1.604% for smokers, which is more than twice the proportion for non-smokers (0.665%). Conversely, the proportion of babies with no birth defects is 99.34% for non-smokers and 98.40% for smokers. This data supports my hypothesis that smoking is associated with a higher risk of birth defects in newborns.
+
+```
+## 11. Scatterplot
+```{r}
+plot(weights~Mage, data = NCbirths, col = "blue", cex = 0.8, pch = 1, xlab = "Mother's Age", ylab = "Baby Weight (oz.)", main = "Baby Weight vs Mother's Age")
+```
